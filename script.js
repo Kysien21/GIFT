@@ -26,9 +26,7 @@ const longMessage = `Hi Hann! ❤️
 
 On this special Valentine's Day, I just want to tell you how much you mean to me. Every moment we share makes my heart bloom like the most beautiful flowers. 
 
-You bring so much joy and light into my life, and I am grateful for every second we spend together. Your smile brightens my darkest days, and your love fills my heart with endless happiness.
-
-I promise to cherish you, support you, and love you with all my heart, today and always. You are my everything! 💕✨
+You bring so much joy and light into my life, and I am grateful for every second we spend together bsag way kwartaay sugot raka hehe sorry kong zero pa ang sugar daddy nimo but bawi rako puhon hann plss stay lang  og tana d ka ma pul an hann sge rabaya kog damgo ani hahaha but hann bawi rajud ko puhon hehe
 
 Happy Valentine's Day and iloveyouuu so much 🌸💕, my hanni bunch sugarplum humpy dumpy! 🌹`;
 

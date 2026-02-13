@@ -266,6 +266,46 @@ function stopSlideshow() {
   }
 }
 
+const valentineMsgBox = document.getElementById("valentineMsgBox");
+const valentineLongMessage = document.getElementById("valentineLongMessage");
+
+const paragraphs = [
+  `On this special Valentine's Day, I just want to tell you how much you mean to me. 
+Every moment we share makes my heart bloom like the most beautiful flowers. 🌸🌹`,
+];
+
+valentineMsgBox.addEventListener("click", () => {
+  // Clear previous content
+  valentineLongMessage.innerHTML = "";
+  valentineLongMessage.style.opacity = "1";
+
+  let paraIndex = 0;
+
+  function typeParagraph() {
+    if (paraIndex >= paragraphs.length) return; // all done
+
+    const para = document.createElement("p");
+    para.classList.add("typed-paragraph");
+    valentineLongMessage.appendChild(para);
+
+    let charIndex = 0;
+    const paragraph = paragraphs[paraIndex];
+
+    const typeInterval = setInterval(() => {
+      if (charIndex < paragraph.length) {
+        para.textContent += paragraph[charIndex];
+        charIndex++;
+      } else {
+        clearInterval(typeInterval);
+        paraIndex++;
+        setTimeout(typeParagraph, 800); // delay before next paragraph
+      }
+    }, 50); // typing speed in ms
+  }
+
+  typeParagraph();
+});
+
 // Event Listeners
 giftBox.addEventListener("click", openGift);
 

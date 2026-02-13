@@ -15,6 +15,13 @@ body {
     position: relative;
 }
 
+@media (max-width: 968px) {
+    body {
+        display: block;
+        overflow-y: auto;
+    }
+}
+
 /* Starry Night Sky */
 .stars {
     position: fixed;
@@ -140,6 +147,8 @@ h1 {
     position: relative;
     transition: transform 0.3s ease;
     filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.6));
+    pointer-events: auto;
+    z-index: 11;
 }
 
 .gift-box:hover {
@@ -552,6 +561,7 @@ h1 {
     z-index: 90;
     align-items: flex-start;
     justify-content: space-between;
+    width: 100%;
 }
 
 .side-layout.show {
@@ -695,39 +705,68 @@ h1 {
 
 /* Mobile Responsive */
 @media (max-width: 968px) {
+    .photo-container {
+        position: relative;
+        top: 0;
+        left: auto;
+        right: auto;
+        transform: none;
+        width: 100%;
+        max-width: 450px;
+        margin: 0 auto 30px;
+    }
+
+    .photo-container.show {
+        transform: none;
+        opacity: 1;
+    }
+
     .side-layout {
+        position: static;
+        top: auto;
+        left: auto;
+        right: auto;
         flex-direction: column;
         align-items: center;
         gap: 10px;
-        overflow-y: auto;
-        max-height: calc(100vh - 40px);
+        padding: 20px;
+        opacity: 1;
+        pointer-events: auto;
+        z-index: auto;
     }
-    
+
+    .side-layout.show {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
     .left-message {
         width: 100%;
+        order: 1;
     }
-    
+
     .right-flowers {
         width: 100%;
         min-height: 300px;
+        order: 2;
     }
-    
+
     .message-card {
         padding: 20px;
     }
-    
+
     .container {
         margin-top: 50px;
     }
-    
+
     h1 {
         font-size: 2em;
     }
-    
+
     .subtitle {
         font-size: 1em;
     }
-    
+
     .moon {
         width: 60px;
         height: 60px;

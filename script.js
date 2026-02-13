@@ -5,10 +5,14 @@ const dots = document.querySelectorAll(".dot");
 const photoFrames = document.querySelectorAll(".photo-frame");
 const loveMessage = document.getElementById("loveMessage");
 const starsContainer = document.getElementById("starsContainer");
+const sideLayout = document.getElementById("sideLayout");
+const typedMessage = document.getElementById("typedMessage");
+const rightFlowers = document.getElementById("rightFlowers");
 
 let clickCount = 0;
 let currentPhotoIndex = 0;
 let slideInterval;
+let flowerInterval;
 
 const flowers = ["🌹", "🌺", "🌸", "🌼", "🌻", "🌷", "💐", "🏵️", "🌿"];
 const loveMessages = [
@@ -17,6 +21,16 @@ const loveMessages = [
   "You're my forever Valentine! 💝",
   "Love you to the moon and back! 🌙✨",
 ];
+
+const longMessage = `Hi Hann! ❤️
+
+On this special Valentine's Day, I just want to tell you how much you mean to me. Every moment we share makes my heart bloom like the most beautiful flowers. 
+
+You bring so much joy and light into my life, and I am grateful for every second we spend together. Your smile brightens my darkest days, and your love fills my heart with endless happiness.
+
+I promise to cherish you, support you, and love you with all my heart, today and always. You are my everything! 💕✨
+
+Happy Valentine's Day and iloveyouuu so much 🌸💕, my hanni bunch sugarplum humpy dumpy! 🌹`;
 
 // Create Starry Night Sky
 function createStars() {
@@ -31,7 +45,6 @@ function createStars() {
     starsContainer.appendChild(star);
   }
 
-  // Add shooting stars
   for (let i = 0; i < 3; i++) {
     const shootingStar = document.createElement("div");
     shootingStar.className = "shooting-star";
@@ -58,7 +71,6 @@ function createFloatingHeart() {
   setTimeout(() => heart.remove(), 7000);
 }
 
-// Create continuous floating hearts
 setInterval(createFloatingHeart, 1000);
 
 // Create Realistic Flower Petals with Burst Effect
@@ -67,15 +79,13 @@ function createPetalBurst(count = 30) {
   const centerX = photoRect.left + photoRect.width / 2;
   const centerY = photoRect.top + photoRect.height / 2;
 
-  // Create explosion burst of petals surrounding the photo
   for (let i = 0; i < count; i++) {
     const petal = document.createElement("div");
     petal.className = "petal burst";
 
-    // Random position around the photo container (360 degrees)
     const angle = (Math.PI * 2 * i) / count + Math.random() * 0.5;
-    const startDistance = Math.random() * 50 + 100; // Start from around the photo
-    const endDistance = Math.random() * 300 + 200; // Burst outward
+    const startDistance = Math.random() * 50 + 100;
+    const endDistance = Math.random() * 300 + 200;
 
     const startX = Math.cos(angle) * startDistance;
     const startY = Math.sin(angle) * startDistance;
@@ -88,12 +98,10 @@ function createPetalBurst(count = 30) {
     petal.style.setProperty("--ty", endY - startY + "px");
     petal.style.setProperty("--rotation", Math.random() * 720 + "deg");
 
-    // More vibrant colors
     const colors = ["#ff1493", "#ff69b4", "#ff85b3", "#ffb6c1", "#ffc0cb"];
     petal.style.background = `radial-gradient(ellipse at center, ${colors[Math.floor(Math.random() * colors.length)]}, #ff1493)`;
 
     document.body.appendChild(petal);
-
     setTimeout(() => petal.remove(), 2000);
   }
 }
@@ -106,24 +114,19 @@ function createFloatingPetal(count = 15) {
       const petal = document.createElement("div");
       petal.className = "petal float";
 
-      // Random starting position around the photo (top, bottom, left, right)
       const side = Math.floor(Math.random() * 4);
       let startX, startY;
 
       if (side === 0) {
-        // Top
         startX = photoRect.left + Math.random() * photoRect.width;
         startY = photoRect.top - 50;
       } else if (side === 1) {
-        // Right
         startX = photoRect.right + 50;
         startY = photoRect.top + Math.random() * photoRect.height;
       } else if (side === 2) {
-        // Bottom
         startX = photoRect.left + Math.random() * photoRect.width;
         startY = photoRect.bottom + 50;
       } else {
-        // Left
         startX = photoRect.left - 50;
         startY = photoRect.top + Math.random() * photoRect.height;
       }
@@ -132,12 +135,10 @@ function createFloatingPetal(count = 15) {
       petal.style.top = startY + "px";
       petal.style.setProperty("--drift", (Math.random() - 0.5) * 400 + "px");
 
-      // More vibrant colors
       const colors = ["#ff1493", "#ff69b4", "#ff85b3", "#ffb6c1", "#ffc0cb"];
       petal.style.background = `radial-gradient(ellipse at center, ${colors[Math.floor(Math.random() * colors.length)]}, #ff1493)`;
 
       document.body.appendChild(petal);
-
       setTimeout(() => petal.remove(), 4000);
     }, i * 50);
   }
@@ -152,24 +153,19 @@ function createFlower(count = 20) {
       flower.className = "flower";
       flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
 
-      // Random starting position around the photo (all 4 sides)
       const side = Math.floor(Math.random() * 4);
       let startX, startY;
 
       if (side === 0) {
-        // Top
         startX = photoRect.left + Math.random() * photoRect.width;
         startY = photoRect.top - 100;
       } else if (side === 1) {
-        // Right
         startX = photoRect.right + 100;
         startY = photoRect.top + Math.random() * photoRect.height;
       } else if (side === 2) {
-        // Bottom
         startX = photoRect.left + Math.random() * photoRect.width;
         startY = photoRect.bottom + 100;
       } else {
-        // Left
         startX = photoRect.left - 100;
         startY = photoRect.top + Math.random() * photoRect.height;
       }
@@ -181,13 +177,49 @@ function createFlower(count = 20) {
       flower.style.setProperty("--drift", drift + "px");
 
       document.body.appendChild(flower);
-
       setTimeout(() => flower.remove(), 3000);
     }, i * 80);
   }
 }
 
-// Typing Effect for Love Message
+// FIXED: Flowers grow from pot
+function createRightFlower() {
+  if (!rightFlowers) return;
+
+  const flower = document.createElement("div");
+  flower.className = "right-side-flower";
+  flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+
+  const offset = (Math.random() - 0.5) * 50;
+  flower.style.left = `calc(50% + ${offset}px)`;
+
+  const duration = Math.random() * 2 + 5;
+  flower.style.animationDuration = duration + "s";
+
+  rightFlowers.appendChild(flower);
+
+  setTimeout(() => {
+    if (flower && flower.parentNode) {
+      flower.remove();
+    }
+  }, duration * 1000);
+}
+
+// Type message on left
+function typeLeftMessage() {
+  let index = 0;
+  typedMessage.textContent = "";
+
+  const typeInterval = setInterval(() => {
+    if (index < longMessage.length) {
+      typedMessage.textContent += longMessage[index];
+      index++;
+    } else {
+      clearInterval(typeInterval);
+    }
+  }, 30);
+}
+
 function typeMessage() {
   const message = loveMessages[Math.floor(Math.random() * loveMessages.length)];
   let index = 0;
@@ -211,32 +243,37 @@ function typeMessage() {
 function openGift() {
   clickCount++;
 
-  // Show click counter
   const counter = document.createElement("div");
   counter.className = "click-counter";
   counter.textContent = "💕 " + clickCount + " 💕";
   document.body.appendChild(counter);
   setTimeout(() => counter.remove(), 600);
 
-  // Calculate petal count based on clicks (UNLIMITED - more petals with each click)
   const petalBurstCount = Math.min(40 + clickCount * 15, 150);
   const floatingPetalCount = Math.min(25 + clickCount * 10, 100);
   const flowerCount = Math.min(30 + clickCount * 10, 100);
 
-  // Show photo container on first click
   if (clickCount === 1) {
     photoContainer.classList.add("show");
+    sideLayout.classList.add("show");
     startSlideshow();
     typeMessage();
+    typeLeftMessage();
+
+    // FIXED: Flowers appear immediately
+    if (rightFlowers) {
+      // Create 10 flowers immediately
+      for (let i = 0; i < 10; i++) {
+        setTimeout(() => createRightFlower(), i * 100);
+      }
+
+      // Then continue every 600ms
+      flowerInterval = setInterval(createRightFlower, 600);
+    }
   }
 
-  // Petal burst explosion
   setTimeout(() => createPetalBurst(petalBurstCount), 100);
-
-  // Create floating petals
   setTimeout(() => createFloatingPetal(floatingPetalCount), 300);
-
-  // Create emoji flowers
   setTimeout(() => createFlower(flowerCount), 500);
 }
 
@@ -266,54 +303,25 @@ function stopSlideshow() {
   }
 }
 
-const valentineMsgBox = document.getElementById("valentineMsgBox");
-const valentineLongMessage = document.getElementById("valentineLongMessage");
-
-const paragraphs = [
-  `On this special Valentine's Day, I just want to tell you how much you mean to me. 
-Every moment we share makes my heart bloom like the most beautiful flowers. 🌸🌹`,
-];
-
-valentineMsgBox.addEventListener("click", () => {
-  // Clear previous content
-  valentineLongMessage.innerHTML = "";
-  valentineLongMessage.style.opacity = "1";
-
-  let paraIndex = 0;
-
-  function typeParagraph() {
-    if (paraIndex >= paragraphs.length) return; // all done
-
-    const para = document.createElement("p");
-    para.classList.add("typed-paragraph");
-    valentineLongMessage.appendChild(para);
-
-    let charIndex = 0;
-    const paragraph = paragraphs[paraIndex];
-
-    const typeInterval = setInterval(() => {
-      if (charIndex < paragraph.length) {
-        para.textContent += paragraph[charIndex];
-        charIndex++;
-      } else {
-        clearInterval(typeInterval);
-        paraIndex++;
-        setTimeout(typeParagraph, 800); // delay before next paragraph
-      }
-    }, 50); // typing speed in ms
-  }
-
-  typeParagraph();
-});
-
-// Event Listeners
 giftBox.addEventListener("click", openGift);
 
 closeBtn.addEventListener("click", () => {
   photoContainer.classList.remove("show");
+  sideLayout.classList.remove("show");
   stopSlideshow();
+
+  if (flowerInterval) {
+    clearInterval(flowerInterval);
+    flowerInterval = null;
+  }
+
+  if (rightFlowers) {
+    rightFlowers.innerHTML = "";
+  }
+
   loveMessage.classList.remove("typed");
   loveMessage.textContent = "";
+  typedMessage.textContent = "";
   clickCount = 0;
 });
 
@@ -325,5 +333,4 @@ dots.forEach((dot, index) => {
   });
 });
 
-// Initialize stars on load
 createStars();
